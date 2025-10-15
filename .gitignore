@@ -1,3 +1,4 @@
 .vscode
-/gui
 /saves
+/cache
+.rpyc
