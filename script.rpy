@@ -6,6 +6,9 @@ init:
     default persistent.cherryclearA = False
     default persistent.citrusclearA = False
     default persistent.blueberryclearA = False
+    default cena_citrus = False
+    default cena_cherry = False
+    default cena_blueberry = False
     $ cherry_points = 0
     $ citrus_points = 0
     $ blueberry_points = 0
@@ -15,8 +18,7 @@ init:
     $ clearpoints = 0
     $ challenge = "Normal"
     $ alcohol = 0
-    $ gender = "Male"
-    $ player_name = "Querido"
+    $ player_name = "Amor"
     $ player_tits = False
     $ player_genital = True
     $ pronomes = ""
@@ -658,7 +660,7 @@ label start:
     NAR "Qual seu nome?"
     pause 1.0
     call screen name_input_screen
-    $ player_name = _return.strip() if _return else "Querido" 
+    $ player_name = _return.strip() if _return else "Amor" 
     play sound "audio/SFX/success.wav"
     NAR "É um prazer te conhecer [player_name]!"
     NAR "Quais são os seus pronomes?"
@@ -676,7 +678,8 @@ label start:
         "Elu/Delu":
             $ renpy.block_rollback()
             $ pronomes = "ELU"
-            
+    #  ['' if pronomes == 'ELU' else '' if pronomes == 'ELE' else '']
+
     NAR "Agora,{w=0.3} me conte,{w=0.3} como é seu corpo?"
     menu:
         "Como é seu torso?"
@@ -692,13 +695,13 @@ label start:
     menu:
         "Como é sua genitalia?"
 
-        "Eu tenho pênis!":
-            $ renpy.block_rollback()
-            $ player_genital = True
-        
         "Eu tenho vagina!":
             $ renpy.block_rollback()
             $ player_genital = False
+
+        "Eu tenho pênis!":
+            $ renpy.block_rollback()
+            $ player_genital = True
    
     NAR "Ótimo!{w=0.3} Suas escolhas foram salvas!"
     NAR "Agora vamos dar início a essa festa!"
@@ -706,10 +709,11 @@ label start:
     pause 0.5
     play music "audio/BGM/apple_inicio.ogg" fadein 2.0
     pause 0.5
-    A "Vaaaaai,{w=0.3} seja sincero,{w=0.3} qual foi a última vez que você ficou com alguém?"
-    MC "Humm…{w=0.3} eu não lembro, acho que a uns 8 meses…{w=0.3} não precisa jogar na cara não viu Apple???"
+    A "Vaaaaai,{w=0.3} ['fale a verdade' if pronomes == 'ELU' else 'seja verdadeiro' if pronomes == 'ELE' else 'seja verdadeira'],{w=0.3} qual foi a última vez que você ficou com alguém?"    
+    MC "Humm…{w=0.3} eu não lembro, acho que a uns 8 meses…{w=0.3}"
+    MC "não precisa jogar na cara não viu Apple???"
     show Apple Annoy at truecenter
-    A "Não é jogar na cara,{w=0.3} estou tentando jogar {i}{b}você {/b}{/i} para um pouco de diversão!"
+    A "Não é jogar na cara,{w=0.3} estou tentando jogar ['{i}{b}VOCÊ {/b}{/i}' if pronomes == 'ELU' else '{i}{b}o SENHOR {/b}{/i}' if pronomes == 'ELE' else '{i}{b}a SENHORA {/b}{/i}']para um pouco de diversão!"
     pause 0.5
     MC ".{w=0.3}.{w=0.3}.{w=0.3}"
     MC "Mas…{w=0.3} o convite é para você,{w=0.3} não?"
@@ -756,7 +760,7 @@ label start:
     MC "Eu tô na festa de inauguração de um {i}sex shop{/i} na avenida principal… {b}Citrus Dreams.{/b}"
     MC "O que a Apple tava pensando me jogando aqui?{w=0.3}" 
     MC "Não conheço ninguém.."
-    MC "Festa estranha... {w=0.3} com gente esquisita..."
+    MC "Festa estranha...{w=0.3} com gente esquisita..."
     MC "O que eu vou fazer?..."
     NAR "Uma conversa chama sua atenção..."
     pause 0.5
@@ -775,7 +779,7 @@ label start:
     pause 0.5
     XBB black "Você precisa tomar mais cuidado,{w=0.3} mas o importante é que conseguiu entrar."
     pause 1.0
-    XCI "Mas pelo menos nossa pequena Cherry está aprendendo a usar as vantagens que tem hihihi"
+    XCI "Mas pelo menos nossa pequena Cherry está aprendendo a usar as vantagens que tem {i}cicici{/i}"
     XCH "E-eu…{w=0.3} eu não queria ter tido que entrar pelos fundos…"
     pause 1.0
     MC "Acho que estou assistindo algum tipo de conversa comum de amigas,{w=0.3} mas estão bem animadas!{w=0.3}" 
@@ -809,7 +813,7 @@ label start:
     pause 1.0
     show CI 8E
     CI normal "eu sou Citrus,{w=0.3} dona da loja e organizadora,{w=0.3} espero que goste da festa!{w=0.3} Qual seu nome?"
-    MC "Essa não!{w=0.3} Fui pego!"
+    MC "Essa não!{w=0.3} ['me viram!' if pronomes == 'ELU' else 'Fui pego!' if pronomes == 'ELE' else 'Fui pega!']"
     pause 1.0
     show CI LU 8A 4Mischief:
         xalign 0.95 yalign 1.0
@@ -866,7 +870,7 @@ label start:
             show CH 4Laugh
             show BB 4Laugh
             $ citrus_points += 4
-            CI "Assim vão lembrar de mim em seus momentos de prazer, gosto disso!"
+            CI "Assim vão lembrar de mim em seus momentos de prazer, eu gosto disso!"
             jump Presentations
 
         "Uma pessoa tão nova":
@@ -875,11 +879,11 @@ label start:
             CI "Uma mulher?"
             show CH 4Mischief
             show BB 4Mischief
-            MC "Anh?{w=0.3}  Ah não não,{w=0.3}  na verdade eu não esperava alguém tão nova!"
+            MC "Anh?{w=0.3}  Ah não não,{w=0.3} na verdade eu não esperava alguém tão nova!"
             show CI 8F 4Surprise
             show BB 4Normal
             show CH 4Surprise
-            MC "Você deve estar próxima da minha idade,{w=0.3}  é realmente incrível!"
+            MC "Você deve estar próxima da minha idade,{w=0.3} é realmente incrível!"
             $ cherry_points += 2
             $ citrus_points += 2
             $ blueberry_points += 2
@@ -887,7 +891,7 @@ label start:
             show CI LU 8A 4Smile
             show BB 4Smile
             show CH 4Normal
-            CI "Olha, ele pensa rápido rsss"
+            CI "Olha, ['você' if pronomes == 'ELU' else 'ele' if pronomes == 'ELE' else 'ela'] pensa rápido rsss"
             XBB sombra "Citrus é ótima com negócios!{w=0.3}  Tudo que ela coloca a mão parece dar certo!"
             XCH sombra "O dono da última empresa que ela trabalhou quase chorou quando ela pediu para sair e abrir a própria loja."
             pause 0.5
@@ -921,14 +925,14 @@ label Presentations:
     show CI 4Smile
     show BB 4Smile
     show CH 4Smile
-    MC "Então criei coragem e vim!{w=0.3} Mas não sabia o que era a loja até chegar aqui para ser bem sincero."
+    MC "Então criei coragem e vim!{w=0.3} Mas eu não sabia o que era a loja até chegar aqui para ser bem sincero."
     show CH 4Surprise
     CH "Nossa sua amiga é má!"
     show BB 4Laugh
     BB "Bom,{w=0.3} não pode dizer que não deu certo rsss"
     CI "Apple…{w=0.3} Acho que me lembro, comprou algumas coisas interessantes…"
     if citrus_points >= 5:
-        CI "Mas ela não me falou que tinha um amigo bonitinho assim…"
+        CI "Mas não me falou que tinha ['alguém proxímo bonito' if pronomes == 'ELU' else 'um amigo bonitinho' if pronomes == 'ELE' else 'uma amiga bonitinha'] assim…"
     show CH 4Smile
     show BB 4Smile
     CI "Está ótimo aqui,{w=0.3} mas preciso conferir algumas coisas"
@@ -937,14 +941,19 @@ label Presentations:
     CH "E-eu acho que prefiro ir pegar algumas bebidas…{w=0.3} você…{w=0.3} prefere vir junto comigo [player_name]?"
     BB "Hhmm{w=0.3} Já vi que a noite vai ser longa,{w=0.3} vocês vão precisar comer alguma coisa,{w=0.3} vou na cozinha pegar alguns petiscos para a gente,{w=0.3} quer me ajudar [player_name]??"
     menu:
-
         "Quem vou acompanhar primeiro?"
 
         "Ir com Citrus":
+            $ cena_citrus = True
             jump CaminhoCitrus
+
         "Ir com Cherry":
+            $ cena_cherry = True
             jump CaminhoCherry
+
         "Ir com Blueberry":
+            $ cena_blueberry = True
             jump CaminhoBlueberry
+
 
     return
